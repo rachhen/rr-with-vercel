@@ -13,10 +13,9 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
   },
-  trustedOrigins:
-    process.env.NODE_ENV === "production"
-      ? [process.env.VERCEL_URL ?? "", process.env.VERCEL_BRANCH_URL ?? ""]
-      : undefined,
+  trustedOrigins: process.env.TRUSTED_ORIGINS
+    ? process.env.TRUSTED_ORIGINS.split(",")
+    : [],
 });
 
 export const requiredAuth = async (request: Request) => {

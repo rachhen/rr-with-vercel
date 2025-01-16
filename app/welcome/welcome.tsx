@@ -1,3 +1,6 @@
+import { Link } from "react-router";
+import { Button } from "~/components/ui/button";
+import { client } from "~/lib/auth-client";
 import logoDark from "./logo-dark.svg";
 import logoLight from "./logo-light.svg";
 
@@ -8,6 +11,8 @@ export function Welcome({
   message: string;
   userName?: string;
 }) {
+  const { data } = client.useSession();
+
   return (
     <main className="flex items-center justify-center pt-16 pb-4">
       <div className="flex-1 flex flex-col items-center gap-16 min-h-0">
@@ -25,7 +30,20 @@ export function Welcome({
             />
           </div>
         </header>
-        <h3 className="text-3xl font-bold">User: {userName}</h3>
+        <div className="flex flex-col gap-4">
+          <ul className="flex gap-4">
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            {!data && (
+              <li>
+                <Link to="/login">Login</Link>
+              </li>
+            )}
+          </ul>
+          <h3 className="text-3xl font-bold">User: {userName}</h3>
+          {data && <Button onPress={() => client.signOut()}>Sign out</Button>}
+        </div>
         <div className="max-w-[300px] w-full space-y-6 px-4">
           <nav className="rounded-3xl border border-gray-200 p-6 dark:border-gray-700 space-y-4">
             <p className="leading-6 text-gray-700 dark:text-gray-200 text-center">

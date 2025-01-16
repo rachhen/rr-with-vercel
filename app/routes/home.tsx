@@ -1,4 +1,4 @@
-import { database } from "~/database/context";
+import { auth } from "~/lib/auth.server";
 import { Welcome } from "../welcome/welcome";
 import type { Route } from "./+types/home";
 
@@ -9,12 +9,10 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export async function loader({ context }: Route.LoaderArgs) {
-  const db = database();
+export async function loader({ context, request }: Route.LoaderArgs) {
+  const session = await auth.api.getSession({ headers: request.headers });
 
-  const user = await db.query.user.findFirst();
-
-  return { message: context.VALUE_FROM_VERCEL, user };
+  return { message: context.VALUE_FROM_VERCEL, user: session?.user };
 }
 
 export default function Home({ loaderData }: Route.ComponentProps) {

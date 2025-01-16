@@ -42,7 +42,8 @@ export function Welcome({
             )}
           </ul>
           <h3 className="text-3xl font-bold">User: {userName}</h3>
-          {data && <Button onPress={() => client.signOut()}>Sign out</Button>}
+          <pre>{JSON.stringify(data, null, 2)}</pre>
+          {!!data && <Button onPress={() => client.signOut()}>Sign out</Button>}
         </div>
         <div className="max-w-[300px] w-full space-y-6 px-4">
           <nav className="rounded-3xl border border-gray-200 p-6 dark:border-gray-700 space-y-4">
